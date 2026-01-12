@@ -536,7 +536,7 @@ function QuoteTool({ copyWithToast }: { copyWithToast: (text: string, label: str
         </Button>
         {quote && (
           <div className="p-4 bg-muted rounded-lg space-y-2">
-            <div className="text-lg italic">"{quote.content}"</div>
+            <div className="text-lg italic">&quot;{quote.content}&quot;</div>
             <div className="text-sm font-semibold">— {quote.author}</div>
             <Button
               size="sm"
@@ -602,7 +602,7 @@ function CountryInfoTool() {
             <div><strong>Capital:</strong> {info.capital?.[0]}</div>
             <div><strong>Population:</strong> {info.population.toLocaleString()}</div>
             <div><strong>Region:</strong> {info.region}</div>
-            <div><strong>Currency:</strong> {Object.values(info.currencies || {})[0]?.name}</div>
+            <div><strong>Currency:</strong> {info.currencies ? (Object.values(info.currencies)[0] as { name: string })?.name : "N/A"}</div>
             <div><strong>Languages:</strong> {Object.values(info.languages || {}).join(", ")}</div>
           </div>
         )}

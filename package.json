@@ -36,6 +36,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/diff": "^5.0.8",
     "@types/node": "^20.10.6",
     "@types/qrcode": "^1.5.5",

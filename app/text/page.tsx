@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -605,7 +606,8 @@ function Base64Tool({ copyWithToast }: { copyWithToast: (text: string, label: st
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
 
-  const handleChange = () => {
+  // Update output when input or mode changes
+  useEffect(() => {
     if (!input) {
       setOutput("");
       return;
@@ -619,11 +621,6 @@ function Base64Tool({ copyWithToast }: { copyWithToast: (text: string, label: st
     } catch (e) {
       setOutput("Error: Invalid input");
     }
-  };
-
-  // Update output when input or mode changes
-  useEffect(() => {
-    handleChange();
   }, [input, mode]);
 
   return (
@@ -829,7 +826,7 @@ function Base64ImageTool({ copyWithToast }: { copyWithToast: (text: string, labe
         </div>
         {preview && (
           <div className="flex flex-col items-center space-y-4">
-            <img src={preview} alt="Preview" className="max-w-full h-auto border rounded-lg" />
+            <img src={preview} alt="Image preview" className="max-w-full h-auto border rounded-lg" />
             <Textarea
               value={base64}
               readOnly

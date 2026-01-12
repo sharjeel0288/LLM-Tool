@@ -628,12 +628,6 @@ function UnitConverterTool({ copyWithToast }: { copyWithToast: (text: string, la
   const [to, setTo] = useState("ft");
   const [result, setResult] = useState("");
 
-  const conversions: Record<string, Record<string, number>> = {
-    length: { m: 1, km: 1000, cm: 0.01, mm: 0.001, ft: 0.3048, in: 0.0254, mi: 1609.34, yd: 0.9144 },
-    weight: { kg: 1, g: 0.001, mg: 0.000001, lb: 0.453592, oz: 0.0283495, ton: 1000 },
-    temperature: { c: 1, f: 1, k: 1 },
-  };
-
   useEffect(() => {
     if (!value || isNaN(Number(value))) {
       setResult("");
@@ -641,6 +635,12 @@ function UnitConverterTool({ copyWithToast }: { copyWithToast: (text: string, la
     }
     const num = Number(value);
     let converted = 0;
+    
+    const conversions: Record<string, Record<string, number>> = {
+      length: { m: 1, km: 1000, cm: 0.01, mm: 0.001, ft: 0.3048, in: 0.0254, mi: 1609.34, yd: 0.9144 },
+      weight: { kg: 1, g: 0.001, mg: 0.000001, lb: 0.453592, oz: 0.0283495, ton: 1000 },
+      temperature: { c: 1, f: 1, k: 1 },
+    };
     
     // Temperature conversion
     if (from === "c" && to === "f") converted = (num * 9/5) + 32;
@@ -1029,34 +1029,35 @@ function MorseCodeTool({ copyWithToast }: { copyWithToast: (text: string, label:
   const [text, setText] = useState("");
   const [morse, setMorse] = useState("");
 
-  const morseCode: Record<string, string> = {
-    A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.", G: "--.", H: "....",
-    I: "..", J: ".---", K: "-.-", L: ".-..", M: "--", N: "-.", O: "---", P: ".--.",
-    Q: "--.-", R: ".-.", S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-",
-    Y: "-.--", Z: "--..", "0": "-----", "1": ".----", "2": "..---", "3": "...--",
-    "4": "....-", "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
-    ".": ".-.-.-", ",": "--..--", "?": "..--..", "'": ".----.", "!": "-.-.--",
-    "/": "-..-.", "(": "-.--.", ")": "-.--.-", "&": ".-...", ":": "---...",
-    ";": "-.-.-.", "=": "-...-", "+": ".-.-.", "-": "-....-", "_": "..--.-",
-    '"': ".-..-.", "$": "...-..-", "@": ".--.-.", " ": "/"
-  };
-
-  const textToMorse = (input: string): string => {
-    return input.toUpperCase().split("").map(char => morseCode[char] || "").join(" ");
-  };
-
-  const morseToText = (input: string): string => {
-    const reverseCode: Record<string, string> = Object.fromEntries(
-      Object.entries(morseCode).map(([k, v]) => [v, k])
-    );
-    return input.split(" ").map(code => reverseCode[code] || "").join("");
-  };
-
   useEffect(() => {
     if (!text) {
       setMorse("");
       return;
     }
+    
+    const morseCode: Record<string, string> = {
+      A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.", G: "--.", H: "....",
+      I: "..", J: ".---", K: "-.-", L: ".-..", M: "--", N: "-.", O: "---", P: ".--.",
+      Q: "--.-", R: ".-.", S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-",
+      Y: "-.--", Z: "--..", "0": "-----", "1": ".----", "2": "..---", "3": "...--",
+      "4": "....-", "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+      ".": ".-.-.-", ",": "--..--", "?": "..--..", "'": ".----.", "!": "-.-.--",
+      "/": "-..-.", "(": "-.--.", ")": "-.--.-", "&": ".-...", ":": "---...",
+      ";": "-.-.-.", "=": "-...-", "+": ".-.-.", "-": "-....-", "_": "..--.-",
+      '"': ".-..-.", "$": "...-..-", "@": ".--.-.", " ": "/"
+    };
+
+    const textToMorse = (input: string): string => {
+      return input.toUpperCase().split("").map(char => morseCode[char] || "").join(" ");
+    };
+
+    const morseToText = (input: string): string => {
+      const reverseCode: Record<string, string> = Object.fromEntries(
+        Object.entries(morseCode).map(([k, v]) => [v, k])
+      );
+      return input.split(" ").map(code => reverseCode[code] || "").join("");
+    };
+    
     // Check if input looks like morse code
     if (/^[.\-/\s]+$/.test(text)) {
       setMorse(morseToText(text));
